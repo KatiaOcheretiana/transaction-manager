@@ -1,16 +1,21 @@
 import React from "react";
-import { useForm } from "react-hook-form";
+import { useForm, SubmitHandler } from "react-hook-form";
 import { useMutation, useQueryClient } from "react-query";
 import { parseCSV } from "../lib/parseCSV";
 import { addTransaction } from "../lib/transactions";
 import { Box, Button, Input } from "@chakra-ui/react";
+import { Transaction } from "../type";
 
-const ImportTransactions = () => {
-  const { register, handleSubmit } = useForm();
+type FormData = {
+  file: FileList;
+};
+
+const ImportTransactions: React.FC = () => {
+  const { register, handleSubmit } = useForm<FormData>();
   const queryClient = useQueryClient();
 
   const mutation = useMutation(
-    async (transactions) => {
+    async (transactions: Transaction[]) => {
       for (const transaction of transactions) {
         await addTransaction(transaction);
       }
@@ -20,7 +25,7 @@ const ImportTransactions = () => {
     }
   );
 
-  const onSubmit = async (data) => {
+  const onSubmit: SubmitHandler<FormData> = async (data) => {
     try {
       const file = data.file[0];
       const fileExtension = file.name.split(".").pop();
@@ -29,7 +34,9 @@ const ImportTransactions = () => {
         return;
       }
 
-      const transactions = await parseCSV(file);
+      const transactions: Transaction[] = (await parseCSV(
+        file
+      )) as Transaction[];
 
       console.log(transactions);
 
@@ -42,7 +49,7 @@ const ImportTransactions = () => {
   return (
     <Box>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <Input type="file" {...register("file")} />
+        <Input type="file" {...register("file", { required: true })} />
         <Button type="submit">Import</Button>
       </form>
     </Box>
