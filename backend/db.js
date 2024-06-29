@@ -1,5 +1,4 @@
-import Database from "better-sqlite3";
-
+const Database = require("better-sqlite3");
 const db = new Database("transactions.db");
 
 db.prepare(
@@ -8,9 +7,10 @@ db.prepare(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     type TEXT,
     status TEXT,
-    amount REAL
+    amount REAL,
+    clientName TEXT
   )
 `
 ).run();
 
-export default db;
+module.exports = db;

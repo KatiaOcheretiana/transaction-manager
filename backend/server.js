@@ -1,6 +1,6 @@
-import express from "express";
-import cors from "cors";
-import db from "./db";
+const express = require("express");
+const cors = require("cors");
+const db = require("./db");
 
 const app = express();
 const PORT = 3001;
@@ -17,16 +17,33 @@ app.get("/api/transactions", (req, res) => {
   }
 });
 
-app.post("/api/transactions", (req, res) => {
+app.post("/api/transactions", async (req, res) => {
   const { type, status, amount, clientName } = req.body;
+
   try {
+    // Execute the insert statement
     const result = db
       .prepare(
         "INSERT INTO transactions (type, status, amount, clientName) VALUES (?, ?, ?, ?)"
       )
       .run(type, status, amount, clientName);
-    res.json({ id: result.lastInsertRowid, type, status, amount, clientName });
+
+    // Construct the response object based on the result
+    const insertedTransaction = {
+      id: result.lastInsertRowid,
+      type,
+      status,
+      amount,
+      clientName,
+    };
+
+    console.log("Inserted transaction:", insertedTransaction);
+
+    // Respond with the inserted transaction data
+    res.json(insertedTransaction);
   } catch (error) {
+    // Handle any errors that occur during the insert operation
+    console.error("Error inserting transaction:", error);
     res.status(500).json({ error: error.message });
   }
 });
