@@ -39,8 +39,6 @@ app.post("/api/transactions", async (req, res) => {
       clientName,
     };
 
-    console.log("Inserted transaction:", insertedTransaction);
-
     // Respond with the inserted transaction data
     res.json(insertedTransaction);
   } catch (error) {
@@ -79,15 +77,22 @@ app.put("/api/transactions/:id", async (req, res) => {
   }
 });
 
-// // DELETE all transactions
-// app.delete("/api/transactions", (req, res) => {
-//   try {
-//     const transactions = db.prepare("SELECT * FROM transactions").all();
-//     res.json(transactions);
-//   } catch (error) {
-//     res.status(500).json({ error: error.message });
-//   }
-// });
+// DELETE all transactions
+app.delete("/api/transactions/:id", (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const result = db.prepare("DELETE FROM transactions WHERE id = ?").run(id);
+
+    if (result.changes === 0) {
+      return res.status(404).json({ error: "Transaction not found" });
+    }
+
+    res.json({ success: true });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
 
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);

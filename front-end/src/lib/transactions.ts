@@ -20,3 +20,7 @@ export const updateTransaction = async (transaction: Transaction) => {
   );
   return response.data;
 };
+
+export const deleteTransaction = async (id: number) => {
+  await axios.delete(`${API_URL}/transactions/${id}`);
+};

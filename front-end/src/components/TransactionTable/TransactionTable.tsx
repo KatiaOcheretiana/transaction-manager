@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import {
   Box,
   Button,
@@ -12,24 +12,21 @@ import {
 } from "@chakra-ui/react";
 import { ActionWrapper, MyPaginate } from "./TransactionTable.styled";
 import EditModal from "../EditModal";
+import DeleteModal from "../DeleteModal";
 import { Transaction } from "../../type";
 
 type TransactionTablePropsType = {
-  onDelete: (id: number) => void;
   currentPage: number;
   setCurrentPage: (data: number) => void;
   transactions: Transaction[];
 };
 
 const TransactionTable = ({
-  onDelete,
   currentPage,
   setCurrentPage,
   transactions,
 }: TransactionTablePropsType) => {
-  // pagination
   const itemsPerPage = 10;
-
   const pageCount = Math.ceil(transactions.length / itemsPerPage);
 
   const handlePageClick = (data: { selected: number }) => {
@@ -39,12 +36,23 @@ const TransactionTable = ({
   const offset = currentPage * itemsPerPage;
   const currentTransactions = transactions.slice(offset, offset + itemsPerPage);
 
-  // selected transaction for editing
   const [selectedTransaction, setSelectedTransaction] =
     useState<Transaction | null>(null);
+  const [transactionToDelete, setTransactionToDelete] = useState<number | null>(
+    null
+  );
 
-  // Open modal
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const {
+    isOpen: isDeleteModalOpen,
+    onOpen: onDeleteModalOpen,
+    onClose: onDeleteModalClose,
+  } = useDisclosure();
+
+  const handleDelete = (id: number) => {
+    setTransactionToDelete(id);
+    onDeleteModalOpen();
+  };
 
   return (
     <Box
@@ -90,7 +98,7 @@ const TransactionTable = ({
                   colorScheme="red"
                   height={7}
                   opacity={0.6}
-                  onClick={() => onDelete(transaction.id)}
+                  onClick={() => handleDelete(transaction.id)}
                 >
                   Delete
                 </Button>
@@ -114,11 +122,16 @@ const TransactionTable = ({
         activeClassName={"pagination__link--active"}
       />
 
-      {/* Modal for editing status */}
       <EditModal
         isOpen={isOpen}
         onClose={onClose}
         selectedTransaction={selectedTransaction}
+      />
+
+      <DeleteModal
+        isOpen={isDeleteModalOpen}
+        onClose={onDeleteModalClose}
+        transactionToDelete={transactionToDelete}
       />
     </Box>
   );

@@ -38,10 +38,6 @@ const App = () => {
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error loading transactions</div>;
 
-  const handleDelete = (id: number) => {
-    console.log("delete", id);
-  };
-
   return (
     <BoxWrapper p={8}>
       <Toaster position="top-center" reverseOrder={false} />
@@ -65,7 +61,6 @@ const App = () => {
         {transactions && transactions.length >= 1 && (
           <TransactionTable
             transactions={filteredTransactions}
-            onDelete={handleDelete}
             currentPage={currentPage}
             setCurrentPage={setCurrentPage}
           />

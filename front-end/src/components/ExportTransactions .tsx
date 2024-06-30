@@ -1,6 +1,12 @@
 import React, { useState } from "react";
 import { mkConfig, generateCsv, download } from "export-to-csv";
-import { Button, Checkbox, CheckboxGroup, VStack } from "@chakra-ui/react";
+import {
+  Button,
+  Checkbox,
+  CheckboxGroup,
+  Text,
+  VStack,
+} from "@chakra-ui/react";
 import { Transaction } from "../type";
 import toast from "react-hot-toast";
 import styled from "styled-components";
@@ -54,7 +60,9 @@ const ExportTransactions: React.FC<ExportTransactionsProps> = ({
 
   return (
     <VStack align="start">
-      <p>Choose wanted columns</p>
+      <Text fontSize="sm" color="blue" as="cite">
+        Choose wanted columns to export
+      </Text>
       <BoxGroup>
         <CheckboxGroup value={selectedColumns} onChange={handleColumnChange}>
           {allColumns.map((column) => (
