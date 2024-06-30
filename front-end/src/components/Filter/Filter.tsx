@@ -1,4 +1,5 @@
-import { Select, Box } from "@chakra-ui/react";
+import { Select } from "@chakra-ui/react";
+import { BoxWrapper } from "./Filter.styled";
 
 type FilterPropsType = {
   statusFilter: string;
@@ -14,10 +15,12 @@ const Filter = ({
   setTypeFilter,
 }: FilterPropsType) => {
   return (
-    <Box>
+    <BoxWrapper>
       <Select
         value={statusFilter}
         onChange={(e) => setStatusFilter(e.target.value)}
+        width={150}
+        variant="filled"
       >
         <option value="all">All status</option>
         <option value="Pending">Pending</option>
@@ -27,12 +30,14 @@ const Filter = ({
       <Select
         value={typeFilter}
         onChange={(e) => setTypeFilter(e.target.value)}
+        width={150}
+        variant="filled"
       >
         <option value="all">All types</option>
         <option value="Refill">Refill</option>
         <option value="Withdrawal">Withdrawal</option>
       </Select>
-    </Box>
+    </BoxWrapper>
   );
 };
 
