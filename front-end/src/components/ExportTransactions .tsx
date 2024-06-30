@@ -26,6 +26,7 @@ type ExportTransactionsProps = {
 const ExportTransactions: React.FC<ExportTransactionsProps> = ({
   transactions,
 }) => {
+  // columns which need to export
   const [selectedColumns, setSelectedColumns] = useState<string[]>([]);
 
   const allColumns =
@@ -35,6 +36,7 @@ const ExportTransactions: React.FC<ExportTransactionsProps> = ({
     setSelectedColumns(selected);
   };
 
+  //  export func
   const handleExport = () => {
     if (selectedColumns.length === 0) {
       toast.error("Please select at least one column to export.");

@@ -26,6 +26,7 @@ const TransactionTable = ({
   setCurrentPage,
   transactions,
 }: TransactionTablePropsType) => {
+  // pagination
   const itemsPerPage = 10;
   const pageCount = Math.ceil(transactions.length / itemsPerPage);
 
@@ -36,8 +37,11 @@ const TransactionTable = ({
   const offset = currentPage * itemsPerPage;
   const currentTransactions = transactions.slice(offset, offset + itemsPerPage);
 
+  //  for actions
+
   const [selectedTransaction, setSelectedTransaction] =
     useState<Transaction | null>(null);
+
   const [transactionToDelete, setTransactionToDelete] = useState<number | null>(
     null
   );

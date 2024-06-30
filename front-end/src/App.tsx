@@ -10,18 +10,22 @@ import ExportTransactions from "./components/ExportTransactions ";
 import { Toaster } from "react-hot-toast";
 
 const App = () => {
+  // load transaction data from db
+
   const {
     data: transactions,
     isLoading,
     error,
   } = useQuery("transactions", getTransactions);
 
+  // states
   const [statusFilter, setStatusFilter] = useState("all");
   const [typeFilter, setTypeFilter] = useState("all");
   const [filteredTransactions, setFilteredTransactions] = useState([]);
 
   const [currentPage, setCurrentPage] = useState(0);
 
+  // filter transactions by type/status
   useEffect(() => {
     if (transactions) {
       const filteredData = transactions.filter((item: Transaction) => {

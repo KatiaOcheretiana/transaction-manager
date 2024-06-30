@@ -14,6 +14,8 @@ type FormData = {
 
 const ImportTransactions: React.FC = () => {
   const { register, handleSubmit, setValue, trigger } = useForm<FormData>();
+
+  // async operations
   const queryClient = useQueryClient();
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -28,6 +30,7 @@ const ImportTransactions: React.FC = () => {
     }
   );
 
+  // submit import / check validation
   const onSubmit: SubmitHandler<FormData> = async (data) => {
     try {
       const file = data.file[0];

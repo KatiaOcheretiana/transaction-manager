@@ -15,6 +15,7 @@ function DeleteModal({
   onClose,
   transactionToDelete,
 }: DeleteModalProps) {
+  // async operations
   const queryClient = useQueryClient();
 
   const { mutateAsync: deleteTransactionMutate } = useMutation(
@@ -30,6 +31,7 @@ function DeleteModal({
     }
   );
 
+  // func to delete the transaction
   const confirmDelete = async () => {
     if (transactionToDelete !== null) {
       await deleteTransactionMutate(transactionToDelete);

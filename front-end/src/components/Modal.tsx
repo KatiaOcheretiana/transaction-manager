@@ -7,7 +7,7 @@ import {
   ModalHeader,
   ModalBody,
 } from "@chakra-ui/react";
-import React, { ReactNode } from "react";
+import { ReactNode } from "react";
 
 type ModalDefaultProps = {
   isOpen: boolean;

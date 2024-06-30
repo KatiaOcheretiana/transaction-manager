@@ -13,6 +13,7 @@ type EditModalProps = {
 };
 
 function EditModal({ isOpen, onClose, selectedTransaction }: EditModalProps) {
+  // status
   const [selectedStatus, setSelectedStatus] = useState<string>("");
 
   useEffect(() => {
@@ -24,6 +25,8 @@ function EditModal({ isOpen, onClose, selectedTransaction }: EditModalProps) {
   const handleStatusChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedStatus(event.target.value);
   };
+
+  // async operations
 
   const queryClient = useQueryClient();
 
@@ -40,6 +43,7 @@ function EditModal({ isOpen, onClose, selectedTransaction }: EditModalProps) {
     }
   );
 
+  // edit func
   const handleSubmit = async () => {
     if (!selectedTransaction) return;
 
